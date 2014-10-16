@@ -1,44 +1,56 @@
 {{#if isPair}}
-    <div class="zci--currency-pc" data-link="{{xeUrl}}">
+    <div class="zci--currency-pc " data-link="{{xeUrl}}">
         <img  src="{{{imageProxy fromFlag}}}" alt="Flag of {{fromCurrencySymbol}}" /></img>
-        <span class="zci--currency-pc-amount"> {{amountRound amount}}</span>
-        <div  class="zci--currency-pc-symbol">{{fromCurrencySymbol}} </div>
+        <span class="zci--currency-pc-amount text--primary"> {{amount}}</span>
+        <div  class="zci--currency-pc-symbol text--primary">{{fromCurrencySymbol}} </div>
         <span class="zci--currency-pc-equal">=</span>          
         <img  src="{{imageProxy toFlag}}" class="flag" alt="Flag of {{toCurrencySymbol}}" /></img>
-        <span class="zci--currency-pc-amount">  {{amountRound convertedAmount}}</span>
-        <div class="zci--currency-pc-symbol"> {{toCurrencySymbol}} </div>         
+        <span class="zci--currency-pc-amount text--primary">{{convertedAmount}}</span>
+        <div class="zci--currency-pc-symbol text--primary"> {{toCurrencySymbol}}</div>    
+        <div class="zci--currency-pc-seperator"></div>              
     </div>   
     <div class="zci--currency-pc-ratesinfo">
-        <div>{{rate}}</div>
-        <div>{{inverseRate}}</div> 
+        <div class="text--secondary">{{rate}}</div>
+        <div class="text--secondary">{{inverseRate}}</div> 
     </div>  
 
     <div class="zci--currency-pc-link">
-        <a href="http://www.xe.com/"><span class="zci--currency-favicon"></span> More at xe.com</a>
+        <a  href="http://www.xe.com/" class="zci__more-at--info"><img width="16" height="16" class="zci--currency-favicon"   src="{{imageProxy "http://www.xe.com/favicon.ico"}}">More at xe.com</a>
         <span class="zci--currency-pc-bar">|</span>
-        <a href="{{xeUrl}}">View chart</a>
+        <a href="{{xeUrl}}" class="zci__more-at--info">View chart</a>
         <span class="zci--currency-pc-bar">|</span>
-        <a href="{{liveUrl}}">View live rates</a>
+        <a href="{{liveUrl}}" class="zci__more-at--info">View live rates</a>
     </div>  
      
          
 
 {{else}}{{#if isSingle}}
-     <div class="tile tile--s" data-link="{{xeUrl}}">
-        <div class="zci--currency-sc"  style="min-width:15em; height:115px;">
-            <img class="zci--currency-sc-img zci--currency-left" src="{{imageProxy fromFlag}}" alt="Flag of {{fromCurrencySymbol}}" /></img>
-            <span class="zci--currency-sc-amount" style="font-size:{{amountFontSize amount}}em;">{{amount}} {{fromCurrencySymbol}} </span>
-            <span class="zci--currency-chart-link">View  Chart</span>
-            <span class="zci--currency-sc-rate">{{rate}}</span>
+     <div class="tile tile--s zci--currency-sc-main" data-link="{{xeUrl}}">
+        <div class="zci--currency-sc">
+            <img src="{{imageProxy fromFlag}}" alt="Flag of {{fromCurrencySymbol}}" /></img>
+            <div class="zci--currency-symbol">{{fromCurrencySymbol}}</div>
+            <div class="zci--currency-sc-amount">{{amount}}</div>
+            <div class="zci--currency-sc-rate">{{currencyName}}</div>
         </div>
        </div>
 {{else}}    
-     <div class="tile tile--s" data-link="{{xeUrl}}">
-        <div class="zci--currency-tc" style="min-width:13em; height:115px;">
-            <img class="zci--currency-tc-img" src="{{imageProxy toFlag}}" alt="Flag of {{toCurrencySymbol}}" /></img>
-            <span class="zci--currency-tc-amount" style="font-size:{{amountFontSize convertedAmount}}em;">{{amountRound convertedAmount}}</span>
-            <span class="zci--currency-left"> {{toCurrencySymbol}}</span>    
-            <span class="zci--currency-tc-rate">{{rate}}</span>
+     <div class="tile tile--s" >
+        <div class="zci--currency-sc">
+            <div class="zci--currency-swap"><a  onclick="location.replace('?q={{amount}}+{{toCurrencySymbol}}')"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              width="16" height="15"  viewBox="0 0 16 15" enable-background="new 0 0 16 15" xml:space="preserve">
+            <path fill-rule="evenodd" clip-rule="evenodd" fill="#666" d="M11,10H3v2h8V10z"/>
+            <path fill="#666" d="M0,11l5,4V7L0,11z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" fill="#666" d="M15,10h-2.1v2H15V10z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" fill="#666" d="M5,3h8v2H5V3z"/>
+            <path fill="#666" d="M16,4l-5,4V0L16,4z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" fill="#666" d="M1,3h2.1v2H1V3z"/>
+            </svg></a></div>
+            <a href="{{xeUrl}}">
+            <img src="{{imageProxy toFlag}}" alt="Flag of {{toCurrencySymbol}}" /></img> 
+            <div class="zci--currency-symbol">{{toCurrencySymbol}}</div>
+            <div class="zci--currency-sc-amount" style="font-size:{{amountFontSize convertedAmount}}em;">{{convertedAmount}}</div>
+            <div class="zci--currency-sc-rate">{{rate}}</div>
+            </a>
         </div>
     </div>
   

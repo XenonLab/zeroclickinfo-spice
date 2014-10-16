@@ -3,6 +3,7 @@ package DDG::Spice::Currency;
 
 use DDG::Spice;
 use Text::Trim;
+use utf8;
 
 primary_example_queries "convert 499 usd to cad", "499 GBP = ? JPY";
 secondary_example_queries "cad to usd?", "cny?";
@@ -50,7 +51,11 @@ sub getCode{
 
 sub checkCurrencyCode{
     my($amount, $from, $to) = @_;
-    return $amount, getCode($from)||"usd", getCode($to)||"cad";
+    $from = getCode($from);
+    $to  = getCode($to);
+    if($from ne $to){
+        return $amount,$from, $to;
+    }
 }
 
 my $amountReg = "\\d+(?:\.\\d+)?";
@@ -60,13 +65,14 @@ my $ws = "?:\\s*";
 
 handle  query_lc => sub {
     
-    if ($_ =~ s/\bcurrency\b|\bwhats\b|\bconvert\b|\bis\b|\bto\b|\bequals\b|\bequal\b|\bin\b|\?|\=|\~|\-//g){
+    if ($_ =~ s/\bcurrency\b|\bwhats\b|\bconvert\b|\bis\b|\bto\b|\bequals\b|\bequal\b|\bin\b|\?|\=|\~|\-|\,|\$|\€|\£|\¥//g){
         trim($_);
     }
 
     #400 cad
     if(/^($amountReg)($ws)($curr)$/){
-        return checkCurrencyCode($1,$2,$2);
+        my $currCode = getCode($2);
+        return $1,$currCode,$currCode;
     }
     #400 usd 10 cad 
     elsif(/^($amountReg)($ws)($curr)($ws)($amountReg)($ws)($curr)$/){
@@ -79,7 +85,6 @@ handle  query_lc => sub {
     #cad 400 euro
     elsif(/^($curr)($ws)($amountReg)($ws)($curr)$/){
         return checkCurrencyCode($2, $3, $1);
-    
     }
     #cad usd 400 
     elsif(/^($curr)($ws)($curr)($ws)($amountReg)$/){
@@ -87,7 +92,8 @@ handle  query_lc => sub {
     }
     #cad
     elsif(/^($curr)$/){
-        return checkCurrencyCode("1",$1,$1);
+        my $currCode = getCode($1);
+        return "1",$currCode,$currCode;
     }
     #cad usd
     elsif(/^($curr)($ws)($curr)$/){
